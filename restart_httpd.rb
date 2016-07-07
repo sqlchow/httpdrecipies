@@ -13,6 +13,8 @@ serviceexecutiontime=      @input.get("serviceexecutiontime")
 serviceduration=           @input.get("serviceduration")
 hostaddress=               @input.get("hostaddress")
 
+@log.info("restart_httpd was called host "+ hostname)
+
 if servicestate == "CRITICAL"                                       #service goes ‘Down’
   response=@call.connector("ssh")                                   #calling ssh connector   
 	.set("target",hostaddress)
