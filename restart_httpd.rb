@@ -15,11 +15,13 @@ hostaddress=               @input.get("hostaddress")
 
 if servicestate == "CRITICAL"                                       #service goes ‘Down’
   response=@call.connector("ssh")                                   #calling ssh connector   
-                  .set("target",hostaddress)
-              .set("type","exec")              
-                  .set("command","systemctl restart httpd.service && systemctl status httpd")     #Starting web server apache2
-                  .set("timeout",60000)
-                  .sync
+	.set("target",hostaddress)
+	.set("type","exec")             
+	.set("username","root")
+	.set("password","Flint@01")
+	.set("command","systemctl restart httpd.service && systemctl status httpd")     #Starting web server apache2
+	.set("timeout",60000)
+	.sync
 
   #SSH Connector Response Parameter
   result=response.get("result")
