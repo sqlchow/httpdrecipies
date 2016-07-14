@@ -35,7 +35,7 @@ end
 #if response.exitcode == 0	# if the previous call succeeds then Update Manage Engine
    response=@call.connector("manageenginesdp")    
               .set("action","update-request")
-              .set("request-id",manageenginerequestid)
+              .set("request-id",manageenginerequestid.to_i)
               .set("requester","administrator")
               .set("subject","Testing update service request")
               .set("description","Specific descriptio")
