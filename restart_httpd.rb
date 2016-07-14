@@ -32,7 +32,7 @@ if servicestate == "CRITICAL"                                       #service goe
 end
 
 if response.exitcode == 0	# if the previous call succeeds then Update Manage Engine
-   response=@call.connector("manageengine_connector_name")    
+   response=@call.connector("manageenginesdp")    
               .set("action","update-request")
               .set("request-id",manageenginerequestid)
               .set("requester","administrator")
