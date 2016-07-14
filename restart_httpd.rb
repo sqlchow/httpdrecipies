@@ -50,6 +50,10 @@ if servicestate == "CRITICAL"                                       #service goe
     result=response.get("result")
     @log.info("#{result.to_s}")
 
+
+
+sleep(2,minutes) # sleep gfor 2 minutes before closing
+
 	  # closing request 
 	response2=@call.connector("manageenginesdp")    
               .set("action","close-request")
