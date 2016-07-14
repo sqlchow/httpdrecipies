@@ -1,7 +1,5 @@
 #!/bin/bash -x
 
-
-
 HOSTATTEMPT=$1
 SERVICESTATEID=$2 
 SERVICEPROBLEMID=$3 
@@ -16,42 +14,47 @@ SERVICEDISPLAYNAME=${14}
 SERVICEEVENTID=${15}
 HOSTSTATETYPE=${16}
 
+TECHNICIAN_KEY="950BF8C4-4BB0-41D0-A893-E3D69BEEE7AE"
+
+#Create json for Flint
+#DATA="{\"servicename\":\""$SERVICEDISPLAYNAME"\",\"servicestate\":\""$SERVICESTATE"\",\"hostname\":\""$HOSTNAME"\",\"hoststatetype\":\""$HOSTSTATETYPE"\",\"hostattempt\":\""$HOSTATTEMPT"\",\"servicedesc\":\""$SERVICEDESC"\",\"servicestateid\":\""$SERVICESTATEID"\",\"serviceeventid\":\""$SERVICEEVENTID"\",\"serviceproblemid\":\""$SERVICEPROBLEMID"\",\"servicelatency\":\""$SERVICELATENCY"\",\"serviceexecutiontime\":\""$SERVICEEXECUTIONTIME"\",\"serviceduration\":\""$SERVICEDURATION"\",\"hostaddress\":\""$HOSTADDRESS"\"}"
+
+#create xml for Manage Engine Service Desk 
+# Note remove all whitespace in payload . to Retain white space use %20
+MESDP_PAYLOAD="<Operation>\
+<Details>\
+<requester>Nagios%20Event%20Notifier</requester>\
+<subject>Host%20$HOSTADDRESS%20issues%20%20$SERVICEDISPLAYNAME%20reported%20$SERVICESTATE</subject>\
+<description>Nagios%20detected%20$HOSTADDRESS:$SERVICEDISPLAYNAME%20in%20critical%20state</description>\
+<callbackURL>http://192.168.1.63</callbackURL>\
+<requesttemplate>$SERVICEDISPLAYNAME%20in%20$SERVICESTATE%20</requesttemplate>\
+<priority>High</priority>\
+<site></site>\
+<group>Network</group>\
+<technician>Nagios%20Operator</technician>\
+<level>Tier%203</level>\
+<status>open</status>\
+<service>Email</service>\
+</Details>\
+</Operation>"
 
 
+#call Manage Engine Retrieve workoerder id for flint
+/usr/bin/curl -X POST \
+  -H "Content-Type:x-www-form-urlencoded"\
+  'http://192.168.1.253:8484/sdpapi/request/?OPERATION_NAME=ADD_REQUEST&'"TECHNICIAN_KEY=$TECHNICIAN_KEY&INPUT_DATA=$MESDP_PAYLOAD"'' -o /tmp/wrokoder$$.log
 
+#set Request ID
+MANAGE_ENGINE_REQUESTID=`xml_grep workorderid --text_only /tmp/wrokoder$$.log`
 
-echo "Call Started " >> /var/log/nagios_notify_flint.log
-echo "Printing all arguement $* " >> /var/log/nagios_notify_flint.log
-echo "                          " >> /var/log/nagios_notify_flint.log
-echo "                          " >> /var/log/nagios_notify_flint.log
-echo "                          " >> /var/log/nagios_notify_flint.log
-echo "Printing all Variables" >> /var/log/nagios_notify_flint.log
-echo $SERVICEDISPLAYNAME >> /var/log/nagios_notify_flint.log
-echo $SERVICESTATE >> /var/log/nagios_notify_flint.log
-echo $HOSTNAME >> /var/log/nagios_notify_flint.log
-echo $HOSTSTATETYPE >> /var/log/nagios_notify_flint.log
-echo $HOSTATTEMPT >> /var/log/nagios_notify_flint.log
-echo $SERVICEDESC >> /var/log/nagios_notify_flint.log
-echo $SERVICESTATEID >> /var/log/nagios_notify_flint.log
-echo $SERVICEEVENTID >> /var/log/nagios_notify_flint.log
-echo $SERVICEPROBLEMID >> /var/log/nagios_notify_flint.log
-echo $SERVICELATENCY >> /var/log/nagios_notify_flint.log
-echo $SERVICEEXECUTIONTIME >> /var/log/nagios_notify_flint.log
-echo $SERVICEDURATION >> /var/log/nagios_notify_flint.log
-echo $HOSTADDRESS >> /var/log/nagios_notify_flint.log
+#Create json for Flint
+DATA="{\"servicename\":\""$SERVICEDISPLAYNAME"\",\"servicestate\":\""$SERVICESTATE"\",\"hostname\":\""$HOSTNAME"\",\"hoststatetype\":\""$HOSTSTATETYPE"\",\"hostattempt\":\""$HOSTATTEMPT"\",\"servicedesc\":\""$SERVICEDESC"\",\"servicestateid\":\""$SERVICESTATEID"\",\"serviceeventid\":\""$SERVICEEVENTID"\",\"serviceproblemid\":\""$SERVICEPROBLEMID"\",\"servicelatency\":\""$SERVICELATENCY"\",\"serviceexecutiontime\":\""$SERVICEEXECUTIONTIME"\",\"serviceduration\":\""$SERVICEDURATION"\",\"MANAGE_ENGINE_REQUESTID\":\""$MANAGE_ENGINE_REQUESTID"\",\"hostaddress\":\""$HOSTADDRESS"\"}"
 
+echo $DATA
 
-
-DATA="{\"servicename\":\""$SERVICEDISPLAYNAME"\",\"servicestate\":\""$SERVICESTATE"\",\"hostname\":\""$HOSTNAME"\",\"hoststatetype\":\""$HOSTSTATETYPE"\",\"hostattempt\":\""$HOSTATTEMPT"\",\"servicedesc\":\""$SERVICEDESC"\",\"servicestateid\":\""$SERVICESTATEID"\",\"serviceeventid\":\""$SERVICEEVENTID"\",\"serviceproblemid\":\""$SERVICEPROBLEMID"\",\"servicelatency\":\""$SERVICELATENCY"\",\"serviceexecutiontime\":\""$SERVICEEXECUTIONTIME"\",\"serviceduration\":\""$SERVICEDURATION"\",\"hostaddress\":\""$HOSTADDRESS"\"}"
-
-
-echo "Printing all arguement $* " >> /var/log/nagios_notify_flint.log
-echo "                          " >> /var/log/nagios_notify_flint.log
-echo "                          " >> /var/log/nagios_notify_flint.log
-echo "$DATA"	>> /var/log/nagios_notify_flint.log
 
 sleep 10
-
+#call Flint 
 /usr/bin/curl -X POST \
 -H "Content-Type: application/json" \
 -H "x-flint-username: admin" \
