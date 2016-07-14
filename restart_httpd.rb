@@ -29,7 +29,6 @@ if servicestate == "CRITICAL"                                       #service goe
   #SSH Connector Response Parameter
   resultfromaction=response.get("result")
   @log.info("#{resultfromaction.to_s}")
-end
 
    response=@call.connector("manageenginesdp")    
               .set("action","update-request")
@@ -52,7 +51,7 @@ end
     @log.info("#{result.to_s}")
 
 	  # closing request 
-	response=@call.connector("manageenginesdp")    
+	response2=@call.connector("manageenginesdp")    
               .set("action","close-request")
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
@@ -60,5 +59,7 @@ end
               .sync
 
 
-    result=response.get("result")
-    @log.info("#{result.to_s}")
+    resulti=response2.get("result")
+    @log.info("#{resulti.to_s}")
+
+end
