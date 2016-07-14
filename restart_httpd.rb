@@ -31,7 +31,7 @@ if servicestate == "CRITICAL"                                       #service goe
   @log.info("#{result.to_s}")
 end
 
-if response.exitcode == 0	# if the previous call succeeds then Update Manage Engine
+#if response.exitcode == 0	# if the previous call succeeds then Update Manage Engine
    response=@call.connector("manageenginesdp")    
               .set("action","update-request")
               .set("request-id",manageenginerequestid)
