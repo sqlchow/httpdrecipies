@@ -22,7 +22,7 @@ if servicestate == "CRITICAL"                                       #service goe
 	.set("type","exec")             
 	.set("username","root")
 	.set("password","Flint@01")
-	.set("command","systemctl restart httpd.service && systemctl is-active httpd | grep active")     #Starting web server apache2
+	.set("command","systemctl -q restart httpd.service && systemctl is-active httpd ")     #Starting web server apache2
 	.set("timeout",60000)
 	.sync
 
