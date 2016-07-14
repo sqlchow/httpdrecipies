@@ -22,23 +22,22 @@ if servicestate == "CRITICAL"                                       #service goe
 	.set("type","exec")             
 	.set("username","root")
 	.set("password","Flint@01")
-	.set("command","touch /tmp/something && systemctl restart httpd.service && systemctl status httpd")     #Starting web server apache2
+	.set("command","systemctl restart httpd.service && systemctl is-active httpd | grep ")     #Starting web server apache2
 	.set("timeout",60000)
 	.sync
 
   #SSH Connector Response Parameter
-  result=response.get("result")
-  @log.info("#{result.to_s}")
+  resultfromaction=response.get("result")
+  @log.info("#{resultfromaction.to_s}")
 end
 
- @log.info(""+manageenginerequestid)
-#if response.exitcode == 0	# if the previous call succeeds then Update Manage Engine
+if resultfromaction == 0	# if the previous call succeeds then Update Manage Engine
    response=@call.connector("manageenginesdp")    
               .set("action","update-request")
               .set("request-id",manageenginerequestid.to_i)
-              .set("requester","administrator")
-              .set("subject","Testing update service request")
-              .set("description","Specific descriptio")
+              .set("requester","Flint Operator")
+              .set("subject","Flint attempted Restarting the Service")
+              .set("description","Flint will attempt to ssh to "+ hostaddress +" and restart "+ servicedesc)
               .set("requesttemplate","Unable to browse")
               .set("priority","Low")
               .set("site","-")
@@ -53,13 +52,20 @@ end
     result=response.get("result")
     @log.info("#{result.to_s}")
 
-	if response.exitcode == 0               # 0 is success.
+	if result == 0               # 0 is success.
 	  puts "success"
 	  # take action in case of success
+	  # closing request 
+	response=@call.connector("manageengine_connector_name")    
+              .set("action","close-request")
+              .set("request-id",manageenginerequestid.to_i)
+              .set("close-accepted","Accepted")
+              .set("close-comment","Service restarted successfully")                               
+              .sync
 	else                                    # non zero means fail
 	  puts "fail"
 	  puts "Reason:" + response.message     # get the reason of failure
 	  ## Take action in case of failure
 	end
-#end 
+end 
 
