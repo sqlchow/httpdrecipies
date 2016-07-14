@@ -24,7 +24,7 @@ if servicestate == "CRITICAL"                                       #service goe
 	.set("password","Flint@01")
 	.set("command","systemctl -q restart httpd.service && systemctl is-active httpd ")     #Starting web server apache2
 	.set("timeout",60000)
-	.sync
+	.async
 
   #SSH Connector Response Parameter
   resultfromaction=response.get("result")
@@ -45,7 +45,7 @@ if servicestate == "CRITICAL"                                       #service goe
               .set("status","Close")
               .set("service",@service)
               .timeout(10000)                                                 
-              .sync
+              .async
     
     result=response.get("result")
     @log.info("#{result.to_s}")
@@ -60,7 +60,7 @@ sleep(2,minutes) # sleep gfor 2 minutes before closing
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
               .set("close-comment","Service restarted successfully")                               
-              .sync
+              .async
 
 
     resulti=response2.get("result")
