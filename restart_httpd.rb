@@ -56,7 +56,7 @@ end
 	  puts "success"
 	  # take action in case of success
 	  # closing request 
-	response=@call.connector("manageengine_connector_name")    
+	response=@call.connector("manageenginesdp")    
               .set("action","close-request")
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
