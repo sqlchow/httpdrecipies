@@ -60,5 +60,5 @@ end
               .sync
 
 
-    result2=response.get("result")
-    @log.info("#{result2.to_s}")
+    result=response.get("result")
+    @log.info("#{result.to_s}")
