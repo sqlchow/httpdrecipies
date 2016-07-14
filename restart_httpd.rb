@@ -31,7 +31,7 @@ if servicestate == "CRITICAL"                                       #service goe
   @log.info("#{resultfromaction.to_s}")
 end
 
-if resultfromaction == 0	# if the previous call succeeds then Update Manage Engine
+#if resultfromaction == 0	# if the previous call succeeds then Update Manage Engine
    response=@call.connector("manageenginesdp")    
               .set("action","update-request")
               .set("request-id",manageenginerequestid.to_i)
@@ -52,7 +52,7 @@ if resultfromaction == 0	# if the previous call succeeds then Update Manage Engi
     result=response.get("result")
     @log.info("#{result.to_s}")
 
-	if result == 0               # 0 is success.
+#	if result == 0               # 0 is success.
 	  puts "success"
 	  # take action in case of success
 	  # closing request 
@@ -62,10 +62,10 @@ if resultfromaction == 0	# if the previous call succeeds then Update Manage Engi
               .set("close-accepted","Accepted")
               .set("close-comment","Service restarted successfully")                               
               .sync
-	else                                    # non zero means fail
-	  puts "fail"
-	  puts "Reason:" + response.message     # get the reason of failure
+#	else                                    # non zero means fail
+#	  puts "fail"
+#	  puts "Reason:" + response.message     # get the reason of failure
 	  ## Take action in case of failure
-	end
-end 
+#	end
+#end 
 
