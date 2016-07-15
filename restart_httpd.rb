@@ -1,4 +1,5 @@
 @log.info("input is:"+ @input.to_s)
+
 servicename=               @input.get("servicename")   #getting the values from JSON
 hostname=                  @input.get("hostname")
 servicestate=              @input.get("servicestate")
@@ -14,21 +15,7 @@ serviceduration=           @input.get("serviceduration")
 hostaddress=               @input.get("hostaddress")
 manageenginerequestid=      @input.get("MANAGE_ENGINE_REQUESTID")
 
-@log.info("restart_httpd was called host "+ hostname +"Related incident Ticket Number : "+ manageenginerequestid )
-
-if servicestate == "CRITICAL"                                       #service goes ‘Down’
-  response=@call.connector("ssh")                                   #calling ssh connector   
-	.set("target",hostaddress)
-	.set("type","exec")             
-	.set("username","root")
-	.set("password","Flint@01")
-	.set("command","systemctl -q restart httpd.service && systemctl is-active httpd ")     #Starting web server apache2
-	.set("timeout",60000)
-	.async
-
-  #SSH Connector Response Parameter
-  resultfromaction=response.get("result")
-  @log.info("#{resultfromaction.to_s}")
+@log.info("restart_httpd was called for host "+ hostname +"Related incident Ticket Number : "+ manageenginerequestid )
 
    response=@call.connector("manageenginesdp")    
               .set("action","update-request")
@@ -50,9 +37,21 @@ if servicestate == "CRITICAL"                                       #service goe
     result=response.get("result")
     @log.info("#{result.to_s}")
 
+if servicestate == "CRITICAL"                                       #service goes ‘Down’
+  response=@call.connector("ssh")                                   #calling ssh connector   
+	.set("target",hostaddress)
+	.set("type","exec")             
+	.set("username","root")
+	.set("password","Flint@01")
+	.set("command","systemctl -q restart httpd.service && systemctl is-active httpd ")     #Starting web server apache2
+	.set("timeout",60000)
+	.async
+
+  #SSH Connector Response Parameter
+  resultfromaction=response.get("result")
+  @log.info("#{resultfromaction.to_s}")
 
 
-sleep(2,minutes) # sleep gfor 2 minutes before closing
 
 	  # closing request 
 	response2=@call.connector("manageenginesdp")    
@@ -64,6 +63,6 @@ sleep(2,minutes) # sleep gfor 2 minutes before closing
 
 
     resulti=response2.get("result")
-    @log.info("#{resulti.to_s}")
+    @log.info("#{resulti.to_s}" + response2.message)
 
 end
