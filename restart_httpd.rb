@@ -34,13 +34,8 @@ manageenginerequestid=      @input.get("MANAGE_ENGINE_REQUESTID")
               .timeout(10000)                                                 
               .async
     
-    result=response.get("result")
+    result=response.get("response")
     @log.info("#{result.to_s}")
-
-@log.info("Call to Manage Engine Completed ") 
-@log.info("Call to SSH Connector Started ") 
-
-
 
 if servicestate == "CRITICAL"                                       #service goes ‘Down’
   response=@call.connector("ssh")                                   #calling ssh connector   
@@ -53,23 +48,21 @@ if servicestate == "CRITICAL"                                       #service goe
 	.async
 
   #SSH Connector Response Parameter
-  resultfromaction=response.get("result")
+  resultfromaction=response.get("response")
   @log.info("#{resultfromaction.to_s}")
 
-@log.info("Call to SSH Connector completed") 
-@log.info("Call to Manage Engine to close ticket ") 
 
 
-  response2=@call.connector("manageenginesdp")    
-               .set("action","close-request")
-               .set("request-id",manageenginerequestid.to_i)
-               .set("close-accepted","Accepted")
-               .set("close-comment","Service restarted successfully")                               
-               .async
+	  # closing request 
+	response2=@call.connector("manageenginesdp")    
+              .set("action","close-request")
+              .set("request-id",manageenginerequestid.to_i)
+              .set("close-accepted","Accepted")
+              .set("close-comment","Service restarted successfully")                               
+              .async
 
-@log.info("Call to Manage Engine close-request Completed ") 
 
-  resulti=response2.get("result")
-  @log.info("#{resulti.to_s}")
+    resulti=response2.get("response")
+    @log.info("#{resulti.to_s}")
 
 end
