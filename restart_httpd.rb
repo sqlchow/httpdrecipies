@@ -34,8 +34,8 @@ manageenginerequestid=      @input.get("MANAGE_ENGINE_REQUESTID")
               .timeout(10000)                                                 
               .async
     
-    result=response.get("response")
-    @log.info("#{result.to_s}")
+#    result=response.get("response")
+#    @log.info("#{result.to_s}")
 
 if servicestate == "CRITICAL"                                       #service goes ‘Down’
   response=@call.connector("ssh")                                   #calling ssh connector   
@@ -48,8 +48,8 @@ if servicestate == "CRITICAL"                                       #service goe
 	.async
 
   #SSH Connector Response Parameter
-  resultfromaction=response.get("response")
-  @log.info("#{resultfromaction.to_s}")
+#  resultfromaction=response.get("response")
+#  @log.info("#{resultfromaction.to_s}")
 
 
 
@@ -62,7 +62,7 @@ if servicestate == "CRITICAL"                                       #service goe
               .async
 
 
-    resulti=response2.get("response")
-    @log.info("#{resulti.to_s}")
+#    resulti=response2.get("response")
+#    @log.info("#{resulti.to_s}")
 
 end
