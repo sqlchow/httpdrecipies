@@ -32,7 +32,7 @@ manageenginerequestid=      @input.get("MANAGE_ENGINE_REQUESTID")
               .set("status","Close")
               .set("service",@service)
               .timeout(10000)                                                 
-              .sync
+              .async
     
 #    result=response.get("result")
 #    @log.info("#{result.to_s}")
@@ -43,7 +43,7 @@ if servicestate == "CRITICAL"                                       #service goe
 	.set("type","exec")             
 	.set("username","root")
 	.set("password","Flint@01")
-	.set("command","systemctl -q restart httpd.service && systemctl is-active httpd ")     #Starting web server apache2
+	.set("command","systemctl -q restart httpd.service && systemctl is-active httpd && logout")     #Starting web server apache2
 	.set("timeout",60000)
 	.sync
 
@@ -59,7 +59,7 @@ if servicestate == "CRITICAL"                                       #service goe
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
               .set("close-comment","Service restarted successfully")                               
-              .sync
+              .aync
 
 
 #    resulti=response2.get("result")
