@@ -15,6 +15,7 @@ serviceduration=           @input.get("serviceduration")
 hostaddress=               @input.get("hostaddress")
 manageenginerequestid=     @input.get("MANAGE_ENGINE_REQUESTID")
 manageenginesubject=	   @input.get("MANAGE_ENGINE_REQUESTSUB")
+alerttype		   @input.get("ALERTTYPE")
 
 @log.info("restart_httpd was called for host "+ hostname +"Related incident Ticket Number : "+ manageenginerequestid )
 
@@ -23,7 +24,7 @@ manageenginesubject=	   @input.get("MANAGE_ENGINE_REQUESTSUB")
               .set("request-id",manageenginerequestid.to_i)
               .set("requester","Flint Operator")
               .set("subject",manageenginesubject.to_s)
-              .set("description","Flint will attempt to ssh to "+ hostaddress +" and restart "+ servicedesc)
+              .set("description", servicedesc)
               .set("requesttemplate","Unable to browse")
               .set("priority","Low")
               .set("site","-")
@@ -38,7 +39,7 @@ manageenginesubject=	   @input.get("MANAGE_ENGINE_REQUESTSUB")
     result=response.get("result")
     @log.info("#{result.to_s}")
 
-if servicestate == "CRITICAL"                                       #service goes ‘Down’
+if  alerttype == "HTTP"                                       #service goes ‘Down’
   response=@call.connector("ssh")                                   #calling ssh connector   
 	.set("target",hostaddress)
 	.set("type","exec")             
@@ -55,6 +56,36 @@ if servicestate == "CRITICAL"                                       #service goe
 
 
 	  # closing request 
+	response2=@call.connector("manageenginesdp")    
+              .set("action","close-request")
+              .set("request-id",manageenginerequestid.to_i)
+              .set("close-accepted","Accepted")
+              .set("close-comment","Service restarted successfully")                               
+              .aync
+
+
+    resulti=response2.get("result")
+    @log.info("#{resulti.to_s}")
+
+end
+
+if  alerttype == "DISK"                                       #service goes ‘Down’
+  response=@call.connector("ssh")                                   #calling ssh connector   
+	.set("target",hostaddress)
+	.set("type","exec")             
+	.set("username","root")
+	.set("password","Flint@01")
+	.set("command","lvextend -L+100M /dev/mapper/flintvg-flint_vol1 &&  resize2fs /dev/mapper/flintvg-flint_vol1 ; if [[ $? = 0 ]]; then logout ; else exit 1 ;")     #xStarting web server apache2
+	.set("timeout",60000)
+	.sync
+
+  #SSH Connector Response Parameter
+  resultfromaction=response.get("result")
+  @log.info("#{resultfromaction.to_s}")
+
+
+
+	  # closing request
 	response2=@call.connector("manageenginesdp")    
               .set("action","close-request")
               .set("request-id",manageenginerequestid.to_i)
