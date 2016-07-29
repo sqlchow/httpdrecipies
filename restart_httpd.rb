@@ -90,7 +90,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
               .set("action","close-request")
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
-              .set("close-comment","Service restarted successfully")                               
+              .set("close-comment","Volume Group expanded successfully")                               
               .aync
 
 
