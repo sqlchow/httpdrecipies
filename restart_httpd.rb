@@ -13,7 +13,8 @@ servicelatency=            @input.get("servicelatency")
 serviceexecutiontime=      @input.get("serviceexecutiontime")
 serviceduration=           @input.get("serviceduration")
 hostaddress=               @input.get("hostaddress")
-manageenginerequestid=      @input.get("MANAGE_ENGINE_REQUESTID")
+manageenginerequestid=     @input.get("MANAGE_ENGINE_REQUESTID")
+manageenginesubject=	   @input.get("MANAGE_ENGINE_REQUESTSUB")
 
 @log.info("restart_httpd was called for host "+ hostname +"Related incident Ticket Number : "+ manageenginerequestid )
 
@@ -21,7 +22,7 @@ manageenginerequestid=      @input.get("MANAGE_ENGINE_REQUESTID")
               .set("action","update-request")
               .set("request-id",manageenginerequestid.to_i)
               .set("requester","Flint Operator")
-              .set("subject","Flint attempted Restarting the Service")
+              .set("subject",manageenginesubject.to_s)
               .set("description","Flint will attempt to ssh to "+ hostaddress +" and restart "+ servicedesc)
               .set("requesttemplate","Unable to browse")
               .set("priority","Low")
@@ -34,8 +35,8 @@ manageenginerequestid=      @input.get("MANAGE_ENGINE_REQUESTID")
               .timeout(10000)                                                 
               .async
     
-#    result=response.get("result")
-#    @log.info("#{result.to_s}")
+    result=response.get("result")
+    @log.info("#{result.to_s}")
 
 if servicestate == "CRITICAL"                                       #service goes ‘Down’
   response=@call.connector("ssh")                                   #calling ssh connector   
@@ -48,8 +49,8 @@ if servicestate == "CRITICAL"                                       #service goe
 	.sync
 
   #SSH Connector Response Parameter
-#  resultfromaction=response.get("result")
-#  @log.info("#{resultfromaction.to_s}")
+  resultfromaction=response.get("result")
+  @log.info("#{resultfromaction.to_s}")
 
 
 
@@ -62,7 +63,7 @@ if servicestate == "CRITICAL"                                       #service goe
               .aync
 
 
-#    resulti=response2.get("result")
-#    @log.info("#{resulti.to_s}")
+    resulti=response2.get("result")
+    @log.info("#{resulti.to_s}")
 
 end
