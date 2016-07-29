@@ -15,7 +15,7 @@ serviceduration=           @input.get("serviceduration")
 hostaddress=               @input.get("hostaddress")
 manageenginerequestid=     @input.get("MANAGE_ENGINE_REQUESTID")
 manageenginesubject=	   @input.get("MANAGE_ENGINE_REQUESTSUB")
-alerttype		   @input.get("ALERTTYPE")
+alerttype=		   @input.get("ALERTTYPE")
 
 @log.info("restart_httpd was called for host "+ hostname +"Related incident Ticket Number : "+ manageenginerequestid )
 
