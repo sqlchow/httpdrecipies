@@ -36,8 +36,8 @@ alerttype=		   @input.get("ALERTTYPE")
               .timeout(10000)                                                 
               .async
     
-    result=response.get("result")
-    @log.info("#{result.to_s}")
+#    result=response.get("result")
+#    @log.info("#{result.to_s}")
 
 if  alerttype == "HTTP"                                       #service goes ‘Down’
   response=@call.connector("ssh")                                   #calling ssh connector   
@@ -49,8 +49,8 @@ if  alerttype == "HTTP"                                       #service goes ‘D
 	.set("timeout",60000)
 	.sync
 
-  result=response.get("result")
-  @log.info("#{result.to_s}")
+#  result=response.get("result")
+#  @log.info("#{result.to_s}")
 
 
 
@@ -63,8 +63,8 @@ if  alerttype == "HTTP"                                       #service goes ‘D
               .aync
 
 
-    result=response.get("result")
-    @log.info("#{resulti.to_s}")
+#    result=response.get("result")
+#    @log.info("#{resulti.to_s}")
 
 end
 
@@ -79,8 +79,8 @@ if  alerttype == "DISK"                                       #service goes ‘D
 	.sync
 
   #SSH Connector Response Parameter
-  result=response.get("result")
-  @log.info("#{result.to_s}")
+# result=response.get("result")
+#  @log.info("#{result.to_s}")
 
 
 
@@ -93,7 +93,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
               .aync
 
 
-    result=response.get("result")
-    @log.info("#{result.to_s}")
+#    result=response.get("result")
+#    @log.info("#{result.to_s}")
 
 end
