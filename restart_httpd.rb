@@ -60,7 +60,7 @@ if  alerttype == "HTTP"                                       #service goes ‘D
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
               .set("close-comment","Service restarted successfully")                               
-              .aync
+              .async
 
 
 #    result=response.get("result")
@@ -74,7 +74,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
 	.set("type","exec")             
 	.set("username","root")
 	.set("password","Flint@01")
-	.set("command","lvextend -L+100M /dev/mapper/flintvg-flint_vol1  > /dev/null &&  resize2fs /dev/mapper/flintvg-flint_vol1 /dev/null  ; if [[ $? = 0 ]]; then logout ; else exit 1 ;")     
+	.set("command","lvextend -L+100M /dev/mapper/flintvg-flint_vol1  > /dev/null &&  resize2fs /dev/mapper/flintvg-flint_vol1 /dev/null > /dev/null  ; if [[ $? = 0 ]]; then logout ; else exit 1 ;")     
 	.set("timeout",60000)
 	.sync
 
