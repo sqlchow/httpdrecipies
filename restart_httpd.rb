@@ -36,11 +36,11 @@ alerttype=		   @input.get("ALERTTYPE")
               .timeout(10000)                                                 
               .async
     
-#    result=response.get("result")
-#    @log.info("#{result.to_s}")
+     result=response.get("result")
+     @log.info("#{result.to_s}")
 
 if  alerttype == "HTTP"                                       #service goes ‘Down’
-  response=@call.connector("ssh")                                   #calling ssh connector   
+  response1=@call.connector("ssh")                                   #calling ssh connector   
 	.set("target",hostaddress)
 	.set("type","exec")             
 	.set("username","root")
@@ -49,13 +49,13 @@ if  alerttype == "HTTP"                                       #service goes ‘D
 	.set("timeout",60000)
 	.sync
 
-#  result=response.get("result")
-#  @log.info("#{result.to_s}")
+  result1=response1.get("result")
+  @log.info("#{result1.to_s}")
 
 
 
 	  # closing request 
-	response=@call.connector("manageenginesdp")    
+	response2=@call.connector("manageenginesdp")    
               .set("action","close-request")
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
@@ -63,13 +63,13 @@ if  alerttype == "HTTP"                                       #service goes ‘D
               .async
 
 
-#    result=response.get("result")
-#    @log.info("#{resulti.to_s}")
+    result2=response2.get("result")
+    @log.info("#{result2.to_s}")
 
 end
 
 if  alerttype == "DISK"                                       #service goes ‘Down’
-  response=@call.connector("ssh")                                   #calling ssh connector   
+  response3=@call.connector("ssh")                                   #calling ssh connector   
 	.set("target",hostaddress)
 	.set("type","exec")             
 	.set("username","root")
@@ -79,13 +79,13 @@ if  alerttype == "DISK"                                       #service goes ‘D
 	.sync
 
   #SSH Connector Response Parameter
-# result=response.get("result")
-#  @log.info("#{result.to_s}")
+ result3=response3.get("result")
+ @log.info("#{result3.to_s}")
 
 
 
 	  # closing request
-	response=@call.connector("manageenginesdp")    
+	response4=@call.connector("manageenginesdp")    
               .set("action","close-request")
               .set("request-id",manageenginerequestid.to_i)
               .set("close-accepted","Accepted")
@@ -93,7 +93,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
               .async
 
 
-#    result=response.get("result")
-#    @log.info("#{result.to_s}")
+    result4=response4.get("result")
+    @log.info("#{result4.to_s}")
 
 end
