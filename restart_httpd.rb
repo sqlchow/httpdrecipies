@@ -74,7 +74,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
 	.set("type","exec")             
 	.set("username","root")
 	.set("password","Flint@01")
-	.set("command","lvextend -L+100M /dev/mapper/flintvg-flint_vol1 | echo $? > /dev/null  &&  resize2fs /dev/mapper/flintvg-flint_vol1 | echo $? > /dev/null ; if [[ $? = 0 ]]; then logout ; else echo 1 ; logout ;fi")     
+	.set("command","lvextend -L+100M /dev/mapper/flintvg-flint_vol1 | echo $* > /dev/null  &&  resize2fs /dev/mapper/flintvg-flint_vol1 | echo $? > /dev/null ; if [[ $? = 0 ]]; then logout ; else echo 1 ; logout ;fi")     
 	.set("timeout",60000)
 	.sync
 
