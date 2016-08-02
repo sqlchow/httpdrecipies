@@ -116,7 +116,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
               .set("close-comment","Volume Group expanded successfully")                               
               .async
 
-        result4=response.get("result")
+        result4=response4.get("result")
 	@log.info("#{result4.to_s}")
 
     end
