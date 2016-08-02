@@ -105,7 +105,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
                 .sync
 
 	result5=response5.get("result")
-	@log.info("#{result5.to_s)
+	@log.info("#{result5.to_s}")
 	
      else   
 	# closing request
