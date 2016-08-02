@@ -84,19 +84,7 @@ if  alerttype == "DISK"                                       #service goes ‘D
 
 
 
-	  # closing request
-	response4=@call.connector("manageenginesdp")    
-              .set("action","close-request")
-              .set("request-id",manageenginerequestid.to_i)
-              .set("close-accepted","Accepted")
-              .set("close-comment","Volume Group expanded successfully")                               
-              .async
-
-
-    result4=response4.get("result")
-    @log.info("#{result4.to_s}")
-
-    if result4.include? "Insufficient"
+    if result3.include? "Insufficient"
 	 @log.info("SSH command to resize/extend VG/FS failed") 
 
 	response5 = @call.connector('manageenginesdp')
@@ -118,6 +106,19 @@ if  alerttype == "DISK"                                       #service goes ‘D
 
 	result5=response5.get("result")
 	@log.info("#{result5.to_s)
+	
+     else   
+	# closing request
+	response4=@call.connector("manageenginesdp")    
+              .set("action","close-request")
+              .set("request-id",manageenginerequestid.to_i)
+              .set("close-accepted","Accepted")
+              .set("close-comment","Volume Group expanded successfully")                               
+              .async
+
+        result4=response.get("result")
+	@log.info("#{result4.to_s}")
+
     end
 
 @log.info(response.to_s)     
