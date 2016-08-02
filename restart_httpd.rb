@@ -96,4 +96,30 @@ if  alerttype == "DISK"                                       #service goes ‘D
     result4=response4.get("result")
     @log.info("#{result4.to_s}")
 
+    if result4.include? "Insufficient"
+	 @log.info("SSH command to resize/extend VG/FS failed") 
+
+	response5 = @call.connector('manageenginesdp')
+                .set('action','add-request')
+                .set('requester','Flint-bit Automation code')
+                .set('subject', 'Add request')
+                .set('description', 'Requesting LUNS from Storage Admins :Not enough LUNS to grow VG ,Auto Resolution fails Refer to acted alert '+ manageenginerequestid)
+                .set('requesttemplate', 'Unable to browse')
+                .set('requestType','Incident')
+                .set('priority', 'High')
+                .set('site', '-')
+                .set('group','Network')
+                .set('technician', 'John')
+                .set('level', 'Tier 1')
+                .set('status', 'Open')
+                .set('service', 'Hardware')
+                .timeout(10000)
+                .sync
+
+	result5=response5.get("result")
+	@log.info("#{result5.to_s)
+    end
+
+@log.info(response.to_s)     
+
 end
