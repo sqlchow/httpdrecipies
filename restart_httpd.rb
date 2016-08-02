@@ -79,15 +79,14 @@ if  alerttype == "DISK"                                       #service goes ‘D
 	.sync
 
   #SSH Connector Response Parameter
- result3=response3.get("result")
- @log.info("#{result3.to_s}")
+  result3=response3.get("result")
+  @log.info("#{result3.to_s}")
 
 
 
     if result3.include? "Insufficient"
 	 @log.info("SSH command to resize/extend VG/FS failed") 
-
-	response5 = @call.connector('manageenginesdp')
+	 response5 = @call.connector('manageenginesdp')
                 .set('action','add-request')
                 .set('requester','Flint-bit Automation code')
                 .set('subject', 'Add request')
@@ -120,7 +119,5 @@ if  alerttype == "DISK"                                       #service goes ‘D
 	@log.info("#{result4.to_s}")
 
     end
-
-@log.info(response.to_s)     
 
 end
