@@ -42,8 +42,8 @@ alerttype=		   @input.get("ALERTTYPE")
            .timeout(10000)                                                 
            .async
     
-  result=response.get("result")
-  @log.info("#{result.to_s}")
+#  result=response.get("result")
+#  @log.info("#{result.to_s}")
 
 # Manage Engine  Call ends here 
 
@@ -66,7 +66,7 @@ alerttype=		   @input.get("ALERTTYPE")
 
 
 
-	  # closing request 
+	# closing request 
 	response2=@call.connector("manageenginesdp")    
                   .set("action","close-request")
                   .set("request-id",manageenginerequestid.to_i)
@@ -102,22 +102,22 @@ alerttype=		   @input.get("ALERTTYPE")
 	if result3.include? "Insufficient"
 	@log.info("SSH command to resize/extend VG/FS failed") 
 
-	response4 = @call.connector('manageenginesdp')
-                   .set('action','add-request')
-                   .set('requester','Flint-bit Automation code')
-                   .set('subject', 'Add request')
-                   .set('description', 'Requesting LUNS from Storage Admins :Not enough LUNS to grow VG ,Auto Resolution fails Refer to acted alert '+ manageenginerequestid)
-                   .set('requesttemplate', 'Unable to browse')
-                   .set('requestType','Incident')
-                   .set('priority', 'High')
-                   .set('site', '-')
-                   .set('group','Network')
-                   .set('technician', 'John')
-                   .set('level', 'Tier 1')
-                   .set('status', 'Open')
-                   .set('service', 'Hardware')
-                   .timeout(10000)
-                   .sync
+	response4=@call.connector('manageenginesdp')
+                  .set('action','add-request')
+                  .set('requester','Flint-bit Automation code')
+                  .set('subject', 'Add request')
+                  .set('description', 'Requesting LUNS from Storage Admins :Not enough LUNS to grow VG ,Auto Resolution fails Refer to acted alert '+ manageenginerequestid)
+                  .set('requesttemplate', 'Unable to browse')
+                  .set('requestType','Incident')
+                  .set('priority', 'High')
+                  .set('site', '-')
+                  .set('group','Network')
+                  .set('technician', 'John')
+                  .set('level', 'Tier 1')
+                  .set('status', 'Open')
+                  .set('service', 'Hardware')
+                  .timeout(10000)
+                  .sync
 
 	result4=response4.get("result")
 	@log.info("#{result5.to_s}")
