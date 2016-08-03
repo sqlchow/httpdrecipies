@@ -90,7 +90,7 @@ alerttype=		   @input.get("ALERTTYPE")
 		  .set("type","exec")             
 		  .set("username","root")
 		  .set("password","Flint@01")
-		  .set("command","lvextend -L+5M /dev/mapper/flintvg-flint_vol1 1>/dev/zero 2>/dev/zero  &&  resize2fs /dev/mapper/flintvg-flint_vol1 1>/dev/zero 2>/dev/zero ; echo $?")     
+		  .set("command","lvextend -L+5M /dev/mapper/flintvg-flint_vol1 &&  resize2fs /dev/mapper/flintvg-flint_vol1 ")     
 		  .set("timeout",60000)
 		  .sync
 
