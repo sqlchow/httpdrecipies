@@ -25,25 +25,35 @@ alerttype=		   @input.get("ALERTTYPE")
 #We call Manage Engine Updating the ticket with intent to auto resolve
 @log.info("restart_httpd was called for host "+ hostname +"Related incident Ticket Number : "+ manageenginerequestid )
 
-  response=@call.connector("manageenginesdp")    
-           .set("action","update-request")
-           .set("request-id",manageenginerequestid.to_i)
-           .set("requester","Flint Operator")
-           .set("subject",manageenginesubject.to_s)
-           .set("description", servicedesc)
-           .set("requesttemplate","Unable to browse")
-           .set("priority","Low")
-           .set("site","-")
-           .set("group","Network")
-           .set("technician","Flint Operator")
-           .set("level","Tier 3")
-           .set("status","Close")
-           .set("service",@service)
-           .timeout(10000)                                                 
-           .async
+  response10=@call.connector("manageengine_connector_name")   
+             .set("action","add-note")
+             .set("request-id",manageenginerequestid)
+             .set("ispublic","false")
+             .set("notetext","Flint will attempt auto resolution")                              
+             .sync
+  
+  result10=response10.get("result")
+  
+
+  response0=@call.connector("manageenginesdp")    
+            .set("action","update-request")
+            .set("request-id",manageenginerequestid.to_i)
+            .set("requester","Flint Operator")
+            .set("subject",manageenginesubject.to_s)
+            .set("description", servicedesc)
+            .set("requesttemplate","Unable to browse")
+            .set("priority","Low")
+            .set("site","-")
+            .set("group","Network")
+            .set("technician","Flint Operator")
+            .set("level","Tier 3")
+            .set("status","Close")
+            .set("service",@service)
+            .timeout(10000)                                                 
+            .sync
     
-#  result=response.get("result")
-#  @log.info("#{result.to_s}")
+  result0=response0.get("result")
+  @log.info("#{result0.to_s}")
 
 # Manage Engine  Call ends here 
 
@@ -64,7 +74,13 @@ alerttype=		   @input.get("ALERTTYPE")
         result1=response1.get("result")
         @log.info("#{result1.to_s}")
 
-
+      if result1.include? "active"
+	response10=@call.connector("manageengine_connector_name")   
+                   .set("action","add-note")
+                   .set("request-id",manageenginerequestid)
+                   .set("ispublic","false")
+                   .set("notetext","Flint succeeded in auto resolution")                              
+                   .sync
 
 	# closing request 
 	response2=@call.connector("manageenginesdp")    
@@ -74,9 +90,17 @@ alerttype=		   @input.get("ALERTTYPE")
                   .set("close-comment","Service restarted successfully")                               
                   .async
 
-
         result2=response2.get("result")
         @log.info("#{result2.to_s}")
+      else
+	response11=@call.connector("manageengine_connector_name")   
+                   .set("action","add-note")
+                   .set("request-id",manageenginerequestid)
+                   .set("ispublic","false")
+                   .set("notetext","Flint was unsuccessful in auto resolution")                              
+                   .sync
+        	
+      end
 
   end
 
@@ -85,6 +109,13 @@ alerttype=		   @input.get("ALERTTYPE")
 #Call to auto resolve based on alert type DISK 
 
   if  alerttype == "DISK" 
+	response12=@call.connector("manageengine_connector_name")   
+                   .set("action","add-note")
+                   .set("request-id",manageenginerequestid)
+                   .set("ispublic","false")
+                   .set("notetext","Flint will attempt auto resolution")                              
+                   .sync
+
 	response3=@call.connector("ssh")                                   #calling ssh connector   
 		  .set("target",hostaddress)
 		  .set("type","exec")             
