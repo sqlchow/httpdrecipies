@@ -104,7 +104,7 @@ alerttype=		   @input.get("ALERTTYPE")
 
 	response4=@call.connector('manageenginesdp')
                   .set('action','add-request')
-                  .set('requester','Flint-bit Automation code')
+                  .set('requester','Flint Operator')
                   .set('subject', 'Add request')
                   .set('description', 'Requesting LUNS from Storage Admins :Not enough LUNS to grow VG ,Auto Resolution fails Refer to acted alert '+ manageenginerequestid)
                   .set('requesttemplate', 'Unable to browse')
