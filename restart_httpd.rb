@@ -90,7 +90,7 @@ alerttype=		   @input.get("ALERTTYPE")
 		  .set("type","exec")             
 		  .set("username","root")
 		  .set("password","Flint@01")
-		  .set("command","lvextend -L+5M /dev/mapper/flintvg-flint_vol1 &&  resize2fs /dev/mapper/flintvg-flint_vol1 ")     
+		  .set("command","lvextend -L+100M /dev/mapper/flintvg-flint_vol1 &&  resize2fs /dev/mapper/flintvg-flint_vol1 ")     
 		  .set("timeout",60000)
 		  .sync
 
@@ -105,7 +105,7 @@ alerttype=		   @input.get("ALERTTYPE")
 	response4=@call.connector("manageenginesdp")
                   .set("action","add-request")
                   .set("requester","Flint Operator")
-                  .set("subject", "Add request")
+                  .set("subject", "Attention Storage Admins : DISK/ LUNS request.Auto resolution failed for " + manageenginerequestid + " " + manageenginesubject )
                   .set("description", "Requesting LUNS from Storage Admins :Not enough LUNS to grow VG ,Auto Resolution fails Refer to acted alert "+ manageenginerequestid)
                   .set("requesttemplate", "Unable to browse")
                   .set("requestType","Incident")
@@ -120,7 +120,7 @@ alerttype=		   @input.get("ALERTTYPE")
                   .sync
 
 	result4=response4.get("result")
-	@log.info("#{result5.to_s}")
+	@log.info("#{result4.to_s}")
 	
         else   
 	
@@ -132,7 +132,7 @@ alerttype=		   @input.get("ALERTTYPE")
                     .sync
 
           result5=response5.get("result")
-	  @log.info("#{result4.to_s}")
+	  @log.info("#{result5.to_s}")
 
         end
 
