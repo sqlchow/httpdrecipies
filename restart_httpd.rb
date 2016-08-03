@@ -103,7 +103,7 @@ alerttype=		   @input.get("ALERTTYPE")
 	@log.info("SSH command to resize/extend VG/FS failed") 
 
 	response4=@call.connector('manageenginesdp')
-                  .set('action','ADD_REQUEST')
+                  .set('action','add-request')
                   .set('requester','Flint-bit Automation code')
                   .set('subject', 'Add request')
                   .set('description', 'Requesting LUNS from Storage Admins :Not enough LUNS to grow VG ,Auto Resolution fails Refer to acted alert '+ manageenginerequestid)
