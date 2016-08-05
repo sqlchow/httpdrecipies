@@ -82,6 +82,9 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("notestext","Flint succeeded in auto resolution")                              
                    .sync
 
+        resut10=response10.get("result")
+        @log.info("#{result10.to_s}")
+
 	# closing request 
 	response2=@call.connector("manageenginesdp")    
                   .set("action","close-request")
@@ -92,6 +95,7 @@ alerttype=		   @input.get("ALERTTYPE")
 
         result2=response2.get("result")
         @log.info("#{result2.to_s}")
+
       else
 	response11=@call.connector("manageenginesdp")   
                    .set("action","add-note")
@@ -99,7 +103,10 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("ispublic","false")
                    .set("notestext","Flint was unsuccessful in auto resolution")                              
                    .sync
-        	
+
+        result11=response11.get("result")	
+        @log.info("#{result11.to_s}")
+
       end
 
   end
@@ -115,6 +122,7 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("ispublic","false")
                    .set("notestext","Flint will attempt auto resolution")                              
                    .sync
+        @log.info("#{result12.to_s}")
 
 	response3=@call.connector("ssh")                                   #calling ssh connector   
 		  .set("target",hostaddress)
