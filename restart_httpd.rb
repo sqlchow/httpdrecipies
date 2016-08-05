@@ -32,7 +32,6 @@ alerttype=		   @input.get("ALERTTYPE")
              .set("notestext","Flint will attempt auto resolution")                              
              .sync
   
-  result10=response10.get("result")
   
 
   response0=@call.connector("manageenginesdp")    
@@ -122,7 +121,7 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("ispublic","false")
                    .set("notestext","Flint will attempt auto resolution")                              
                    .sync
-        @log.info("#{result12.to_s}")
+
 
 	response3=@call.connector("ssh")                                   #calling ssh connector   
 		  .set("target",hostaddress)
