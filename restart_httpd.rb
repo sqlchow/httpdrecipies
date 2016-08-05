@@ -29,7 +29,7 @@ alerttype=		   @input.get("ALERTTYPE")
              .set("action","add-note")
              .set("request-id",manageenginerequestid.to_i)
              .set("ispublic","false")
-             .set("notetext","Flint will attempt auto resolution")                              
+             .set("notestext","Flint will attempt auto resolution")                              
              .sync
   
   result10=response10.get("result")
@@ -79,7 +79,7 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("action","add-note")
                    .set("request-id",manageenginerequestid.to_i)
                    .set("ispublic","false")
-                   .set("notetext","Flint succeeded in auto resolution")                              
+                   .set("notestext","Flint succeeded in auto resolution")                              
                    .sync
 
 	# closing request 
@@ -97,7 +97,7 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("action","add-note")
                    .set("request-id",manageenginerequestid.to_i)
                    .set("ispublic","false")
-                   .set("notetext","Flint was unsuccessful in auto resolution")                              
+                   .set("notestext","Flint was unsuccessful in auto resolution")                              
                    .sync
         	
       end
@@ -113,7 +113,7 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("action","add-note")
                    .set("request-id",manageenginerequestid.to_i)
                    .set("ispublic","false")
-                   .set("notetext","Flint will attempt auto resolution")                              
+                   .set("notestext","Flint will attempt auto resolution")                              
                    .sync
 
 	response3=@call.connector("ssh")                                   #calling ssh connector   
