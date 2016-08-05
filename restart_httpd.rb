@@ -25,7 +25,7 @@ alerttype=		   @input.get("ALERTTYPE")
 #We call Manage Engine Updating the ticket with intent to auto resolve
 @log.info("restart_httpd was called for host "+ hostname +"Related incident Ticket Number : "+ manageenginerequestid )
 
-  response10=@call.connector("manageengine_connector_name")   
+  response10=@call.connector("manageenginesdp")   
              .set("action","add-note")
              .set("request-id",manageenginerequestid)
              .set("ispublic","false")
@@ -75,7 +75,7 @@ alerttype=		   @input.get("ALERTTYPE")
         @log.info("#{result1.to_s}")
 
       if result1.include? "active"
-	response10=@call.connector("manageengine_connector_name")   
+	response10=@call.connector("manageenginesdp")   
                    .set("action","add-note")
                    .set("request-id",manageenginerequestid)
                    .set("ispublic","false")
@@ -93,7 +93,7 @@ alerttype=		   @input.get("ALERTTYPE")
         result2=response2.get("result")
         @log.info("#{result2.to_s}")
       else
-	response11=@call.connector("manageengine_connector_name")   
+	response11=@call.connector("manageenginesdp")   
                    .set("action","add-note")
                    .set("request-id",manageenginerequestid)
                    .set("ispublic","false")
@@ -109,7 +109,7 @@ alerttype=		   @input.get("ALERTTYPE")
 #Call to auto resolve based on alert type DISK 
 
   if  alerttype == "DISK" 
-	response12=@call.connector("manageengine_connector_name")   
+	response12=@call.connector("manageenginesdp")   
                    .set("action","add-note")
                    .set("request-id",manageenginerequestid)
                    .set("ispublic","false")
