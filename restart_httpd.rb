@@ -27,7 +27,7 @@ alerttype=		   @input.get("ALERTTYPE")
 
   response10=@call.connector("manageenginesdp")   
              .set("action","add-note")
-             .set("request-id",manageenginerequestid)
+             .set("request-id",manageenginerequestid.to_i)
              .set("ispublic","false")
              .set("notetext","Flint will attempt auto resolution")                              
              .sync
@@ -77,7 +77,7 @@ alerttype=		   @input.get("ALERTTYPE")
       if result1.include? "active"
 	response10=@call.connector("manageenginesdp")   
                    .set("action","add-note")
-                   .set("request-id",manageenginerequestid)
+                   .set("request-id",manageenginerequestid.to_i)
                    .set("ispublic","false")
                    .set("notetext","Flint succeeded in auto resolution")                              
                    .sync
@@ -95,7 +95,7 @@ alerttype=		   @input.get("ALERTTYPE")
       else
 	response11=@call.connector("manageenginesdp")   
                    .set("action","add-note")
-                   .set("request-id",manageenginerequestid)
+                   .set("request-id",manageenginerequestid.to_i)
                    .set("ispublic","false")
                    .set("notetext","Flint was unsuccessful in auto resolution")                              
                    .sync
@@ -111,7 +111,7 @@ alerttype=		   @input.get("ALERTTYPE")
   if  alerttype == "DISK" 
 	response12=@call.connector("manageenginesdp")   
                    .set("action","add-note")
-                   .set("request-id",manageenginerequestid)
+                   .set("request-id",manageenginerequestid.to_i)
                    .set("ispublic","false")
                    .set("notetext","Flint will attempt auto resolution")                              
                    .sync
