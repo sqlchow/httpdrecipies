@@ -32,7 +32,8 @@ alerttype=		   @input.get("ALERTTYPE")
              .set("notestext","Flint will attempt auto resolution")                              
              .sync
   
-  
+
+  result10=response10.get("operation").get("result")   
 
   response0=@call.connector("manageenginesdp")    
             .set("action","update-request")
@@ -51,7 +52,9 @@ alerttype=		   @input.get("ALERTTYPE")
             .timeout(10000)                                                 
             .sync
     
-  result0=response0.get("result")
+# result0=response0.get("result")
+#
+  result0=response0.get("operation").get("result")
   @log.info("#{result0.to_s}")
 
 # Manage Engine  Call ends here 
@@ -92,7 +95,7 @@ alerttype=		   @input.get("ALERTTYPE")
                   .set("close-comment","Service restarted successfully")                               
                   .async
 
-        result2=response2.get("result")
+        result2=response2.get("operation").get("result")
         @log.info("#{result2.to_s}")
 
       else
@@ -103,7 +106,7 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("notestext","Flint was unsuccessful in auto resolution")                              
                    .sync
 
-        result11=response11.get("result")	
+        result11=response11.get("operation").get("result")
         @log.info("#{result11.to_s}")
 
       end
@@ -121,6 +124,9 @@ alerttype=		   @input.get("ALERTTYPE")
                    .set("ispublic","false")
                    .set("notestext","Flint will attempt auto resolution")                              
                    .sync
+
+	result12=response12.get("operation").get("result")
+        @log.info("#{result12.to_s}")
 
 
 	response3=@call.connector("ssh")                                   #calling ssh connector   
@@ -157,7 +163,7 @@ alerttype=		   @input.get("ALERTTYPE")
                   .timeout(10000)
                   .sync
 
-	result4=response4.get("result")
+	result4=response4.get("operation").get("result")
 	@log.info("#{result4.to_s}")
 	
         else   
@@ -169,7 +175,7 @@ alerttype=		   @input.get("ALERTTYPE")
                     .set("close-comment","Volume Group expanded successfully")                               
                     .sync
 
-          result5=response5.get("result")
+          result5=response5.get("operation").get("result")
 	  @log.info("#{result5.to_s}")
 
         end
